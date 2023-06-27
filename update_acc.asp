@@ -2,6 +2,7 @@
 <!--#include file="connect.asp"-->
 <!-- #include file="vbsUpload.asp" -->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     If isnull(Session("email")) Then
         Response.redirect("index.asp")
     Else
@@ -36,4 +37,5 @@
         Session("SuccessAcc") = "Update complete!"
         Response.redirect("account.asp")
     End if
+End if
 %>

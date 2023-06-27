@@ -1,38 +1,40 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <!--#include file="connect.asp"-->
 <%
-Dim email, password
-email = Request.Form("email")
-password = Request.Form("password")
-If (NOT isnull(email) AND NOT isnull(password) AND TRIM(email)<>"" AND TRIM(password)<>"" ) Then
-    Dim sql
-    sql = "select * from Account where email= ? and password= ?"
-    Dim cmdPrep
-    set cmdPrep = Server.CreateObject("ADODB.Command")
-    connDB.Open()
-    cmdPrep.ActiveConnection = connDB
-    cmdPrep.CommandType=1
-    cmdPrep.Prepared=true
-    cmdPrep.CommandText = sql
-    cmdPrep.Parameters(0)=email
-    cmdPrep.Parameters(1)=password
-    Dim result
-    set result = cmdPrep.execute()
-    If not result.EOF Then
-        Session("email")=result("email")
-        Session("SuccessLogin")="Login Successfully"
-		if(result("role")="ADMIN") then
-			Response.redirect("homeadmin/homeAdmin.asp")
-		else
-        	Response.redirect("index.asp")
-		End If
-    Else
-        Session("ErrorLogin") = "Wrong email or password"
-    End if
-    result.Close()
-    connDB.Close()
-Else
-    Session("ErrorLogin")="Please input email and password"
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
+	Dim email, password
+	email = Request.Form("email")
+	password = Request.Form("password")
+	If (NOT isnull(email) AND NOT isnull(password) AND TRIM(email)<>"" AND TRIM(password)<>"" ) Then
+		Dim sql
+		sql = "select * from Account where email= ? and password= ?"
+		Dim cmdPrep
+		set cmdPrep = Server.CreateObject("ADODB.Command")
+		connDB.Open()
+		cmdPrep.ActiveConnection = connDB
+		cmdPrep.CommandType=1
+		cmdPrep.Prepared=true
+		cmdPrep.CommandText = sql
+		cmdPrep.Parameters(0)=email
+		cmdPrep.Parameters(1)=password
+		Dim result
+		set result = cmdPrep.execute()
+		If not result.EOF Then
+			Session("email")=result("email")
+			Session("SuccessLogin")="Login Successfully"
+			if(result("role")="ADMIN") then
+				Response.redirect("homeadmin/homeAdmin.asp")
+			else
+				Response.redirect("index.asp")
+			End If
+		Else
+			Session("ErrorLogin") = "Wrong email or password"
+		End if
+		result.Close()
+		connDB.Close()
+	Else
+		Session("ErrorLogin")="Please input email and password"
+	End if
 End if
 %>
 
@@ -62,10 +64,7 @@ End if
 		<div class="container-login100" style="background-image: url('img/bg-01.jpg');">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-40">
 				<%
-				If NOT isnull(Session("SuccessRegister")) AND TRIM(Session("SuccessRegister"))<>"" Then
-					Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("SuccessRegister")&"</div>")
-					Session.Contents.Remove("SuccessRegister")
-				ElseIf NOT isnull(Session("ErrorLogin")) AND TRIM(Session("ErrorLogin"))<>"" Then
+				If  NOT isnull(Session("ErrorLogin")) AND TRIM(Session("ErrorLogin"))<>"" Then
 					Response.write("<div id='alert' role='alert' class = 'alert alert-danger d-flex justify-content-center'>"&Session("ErrorLogin")&"</div>")
     				Session("ErrorLogin") = ""
 				End If

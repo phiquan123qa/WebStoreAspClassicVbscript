@@ -1,5 +1,6 @@
 <!--#include file="connect.asp"-->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
 Dim email, password, repassword, phone
 email = Request.Form("email")
 phone = Request.Form("phone")
@@ -72,7 +73,7 @@ If (NOT isnull(email) AND NOT isnull(phone) AND NOT isnull(password) AND NOT isn
     End if
 Else
     Session("ErrorRegister")="Please input email, password and repassword."
-	
+End if
 End if
 %>
 

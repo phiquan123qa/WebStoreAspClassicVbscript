@@ -1,9 +1,11 @@
 <!-- #include file="connect.asp" -->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN
     DIM sqlString, rs
     sqlString = "SELECT * FROM Url2SliderImgBanner"
     connDB.Open()
     set rs = connDB.execute(sqlString)
+End if
 %> 
 <!DOCTYPE html>
 <head>

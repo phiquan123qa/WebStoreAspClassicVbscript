@@ -1,7 +1,7 @@
 
 <!--#include file="connect.asp"-->
 <%
-
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     If isnull(Session("email")) Then
         Response.redirect("index.asp")
     Else
@@ -35,4 +35,5 @@
         Response.redirect("products.asp?id="&id)
         Session("SuccessProducts") = "Update complete!"
     End if
+End if
 %>

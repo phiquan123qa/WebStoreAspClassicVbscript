@@ -1,5 +1,6 @@
 <!--#include file="connect.asp"-->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN
     Dim code
     code = Request.QueryString("code")
     If (NOT isnull(code) AND TRIM(code)<>"") Then
@@ -23,4 +24,5 @@
         connDB.close()
     End if
     Response.redirect("shoppingCart.asp")
+End If
 %>

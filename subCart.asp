@@ -1,5 +1,6 @@
 <!--#include file="connect.asp"-->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN
     Dim idProduct
     idProduct = Request.QueryString("idproduct")
     If (NOT IsNull(idProduct) and idProduct <> "") Then
@@ -38,4 +39,5 @@
             connDB.Close()
             Response.redirect("shoppingCart.asp")            
     End if
+End if
 %>

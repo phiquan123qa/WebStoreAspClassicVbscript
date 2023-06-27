@@ -2,6 +2,7 @@
 <!--#include file="connect.asp"-->
 <!-- #include file="vbsUpload.asp" -->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     Dim name, email, phone, dateOfBirth, city, district, ward, address, avata
     email = Session("email")
     If isnull(email) OR TRIM(email)="" Then
@@ -35,8 +36,7 @@
         result.Close()
         connDB.Close()
     End if
-    
-
+End if
 %>
 
 

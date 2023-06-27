@@ -1,6 +1,7 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <!--#include file="connect.asp"-->
 <%
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     Dim name, phone, address, idAcc, Shipment, totalPrice, giftCode
     name = Request.Form("name")
     phone = Request.Form("phone")
@@ -86,8 +87,6 @@
     Response.Write(ordId)
     rsss.Close()
 
-    'for each Session("cart") 
-    'INSERT INTO OrderDetails (orderID, productId, quantity) VALUES (?, ?, ?);
     Dim carts, idProduct, quantity
     If (NOT IsEmpty(Session("mycarts"))) Then
         Set carts= Session("mycarts")
@@ -106,7 +105,6 @@
             orderDetailsInsertCmd.Parameters.Append(orderDetailsInsertCmd.CreateParameter("@quantity", 3, 1, , quantity))
 
             orderDetailsInsertCmd.Execute()
-            ' Remove the parameters
             Do While orderDetailsInsertCmd.Parameters.Count > 0
                 orderDetailsInsertCmd.Parameters.Delete(0)
             Loop
@@ -115,7 +113,7 @@
     End if
     connDB.Close()
     'Response.redirect("shoppingCart.asp")  
-
+End if
 %>
 
 <!DOCTYPE html>

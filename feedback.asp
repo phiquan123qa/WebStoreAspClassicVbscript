@@ -7,7 +7,7 @@
         end if
     end function
 
-
+If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     Dim name, email, msg
     name = Request.Form("name")
     email = Request.Form("email")
@@ -32,7 +32,7 @@
     Else
         Session("Feedbackmsgerr")="Send Feedback Error"
     End if
-    
+End if
 %>
 <!DOCTYPE html>
 <html lang="en">

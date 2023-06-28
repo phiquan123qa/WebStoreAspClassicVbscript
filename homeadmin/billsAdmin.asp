@@ -255,7 +255,7 @@ Dim key
                         </td>
                         <td class="border-bottom-0">
                           <p class="mb-0 fw-normal">
-                            <a href="detailBill.asp?<%=rsss("idOrder")%>">Detail</a>
+                            <a href="detailBillAdmin.asp?id=<%=rsss("idOrder")%>">Detail</a>
                           </p>
                         </td>
                       </tr> 

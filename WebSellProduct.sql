@@ -69,12 +69,24 @@ FOREIGN KEY (accId) REFERENCES Account(id)
 )
 
 GO
+CREATE TABLE GiftCode(
+giftCode VARCHAR(20) PRIMARY KEY,
+discount INT,
+expire DATETIME,
+amount INT
+)
+
+GO
 CREATE TABLE [Order](
 id int IDENTITY(1, 1) PRIMARY KEY,
 accId int,
 totalPrice real,
-orderStatus BIT,
+orderStatus BIT DEFAULT 0,
+giftCode VARCHAR(20),
+shipment INT,
+dateCreate DATE DEFAULT GETDATE(),
 FOREIGN KEY (accId) REFERENCES Account(id),
+FOREIGN KEY (giftCode) REFERENCES GiftCode(giftCode)
 )
 
 GO
@@ -87,15 +99,7 @@ FOREIGN KEY (productId)  REFERENCES Products(id),
 FOREIGN KEY (orderID) REFERENCES [Order](id)
 )
 
-GO
-CREATE TABLE GiftCode(
-giftCode VARCHAR(20),
-discount DECIMAL(10,2),
-expire DATETIME,
-amount INT,
-orderId int,
-FOREIGN KEY (orderID) REFERENCES [Order](id)
-)
+
 
 GO
 CREATE TRIGGER trg_InsertProductsDetail
@@ -195,5 +199,6 @@ UPDATE ProductsDetail SET quantity = 24, mainImage = 'XiaomiMonitor_computerScre
 UPDATE ProductsDetail SET quantity = 24, mainImage = 'ASUSProArt_computerScreen.jpg' WHERE id = 20
 
 GO
-INSERT INTO GiftCode VALUES
-('FREESHIP', 5, null, null, null)
+INSERT INTO GiftCode(giftCode, discount, expire, amount) VALUES
+('FREESHIP', 5, null, null)
+

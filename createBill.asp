@@ -78,9 +78,12 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     connDB.Open()
     cmdPreppp.ActiveConnection = connDB
     cmdPreppp.CommandType = 1
-    cmdPreppp.CommandText = "INSERT INTO [Order](accId, totalPrice) OUTPUT INSERTED.id VALUES ( ?, ?)"
+    cmdPreppp.CommandText = "INSERT INTO [Order](accId, totalPrice, orderStatus, giftCode, shipment, dateCreate) OUTPUT INSERTED.id VALUES ( ?, ?, ?, ?, ?, DEFAULT)"
     cmdPreppp.Parameters(0)=idAcc
     cmdPreppp.Parameters(1)=totalPrice
+	cmdPreppp.Parameters(2)= 1
+	cmdPreppp.Parameters(3)=Session("GiftCode")
+	cmdPreppp.Parameters(4)=Shipment
     Response.Write(cmdPreppp.CommandText)
     Set rsss = cmdPreppp.execute()
     ordId = rsss.Fields("id").Value

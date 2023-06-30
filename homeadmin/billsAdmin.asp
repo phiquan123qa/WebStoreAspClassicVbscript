@@ -215,6 +215,9 @@ Dim key
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Address</h6>
                         </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Order Status</h6>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -252,6 +255,17 @@ Dim key
                         </td>
                         <td class="border-bottom-0">
                           <p class="mb-0 fw-normal"><%=rsss("address")&", "&rsss("ward")&", "&rsss("district")&", "&rsss("city")%></p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <%If rsss("orderStatus")="True" Then%>
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger rounded-3 fw-semibold">Prepare</span>
+                          </div>
+                          <%Else%>
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-success rounded-3 fw-semibold">Complete</span>
+                          </div>
+                          <%End if%>
                         </td>
                         <td class="border-bottom-0">
                           <p class="mb-0 fw-normal">

@@ -2,15 +2,28 @@
 <!--#include file="../connect.asp"-->
 <%
     If (Request.ServerVariables("REQUEST_METHOD")= "GET")Then
-        id = Request.QueryString(id)
+        Dim id
+        id = Request.QueryString("id")
         Dim cmd
         set cmd = Server.CreateObject("ADODB.Command")
+        connDB.Open()
         cmd.ActiveConnection = connDB
         cmd.CommandType=1
         cmd.Prepared=true
-        cmd.CommandText = "SELECT * FROM Products Where isEnable =1 And id = ?"
+        cmd.CommandText = "SELECT o.accId, o.dateCreate, a.[name], a.city, a.ward, a.district, a.[address], a.phone, o.totalPrice, o.orderStatus, o.giftCode, o.shipment, g.discount FROM [Order] o LEFT JOIN Account a ON o.accId = a.id LEFT JOIN GiftCode g ON g.giftCode = o.giftCode WHERE o.id = ?"
+        cmd.Parameters(0)=id
         Dim rs
         set rs = cmd.Execute()
+
+        Dim cmdd
+        set cmdd = Server.CreateObject("ADODB.Command")
+        cmdd.ActiveConnection = connDB
+        cmdd.CommandType=1
+        cmdd.Prepared=true
+        cmdd.CommandText = "SELECT p.[name], p.[type], p.brand, o.quantity, p.price FROM Products p LEFT JOIN OrderDetail o ON o.id = p.id WHERE o.orderID = ?"
+        cmdd.Parameters(0)=id
+        Dim rss
+        set rss = cmdd.Execute()
     End if
 %>
 <head>
@@ -131,8 +144,92 @@
             <div class="card w-100">
               <div class="card-body p-4">
                 <div class="mb-4 d-flex justify-content-between">
-                  <h5 class="card-title fw-semibold">Recent Transactions</h5>
-                  
+                <div class="col-md-8 pe-3">
+                    <h5 class="card-title fw-semibold mb-4">Detail Recent Transactions</h5>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table text-nowrap mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                              <tr>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Id</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Name</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Type</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Brand</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Quantity</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Price</h6>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <%While Not rss.EOF 
+                            i=i+1
+                            %>
+                              <tr>
+                                <td class="border-bottom-0"><h6 class="fw-semibold mb-0"><%=i%></h6></td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><%=rss("name")%></p>                        
+                                </td>
+                                <td class="border-bottom-0">
+                                  <p class="mb-0 fw-normal"><%=rss("type")%></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                  <p class="mb-0 fw-normal"><%=rss("brand")%></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                  <p class="mb-0 fw-normal"><%=rss("quantity")%></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                  <p class="mb-0 fw-normal"><%=rss("price")%> $</p>
+                                </td>
+                              </tr> 
+                              <%
+                                rss.MoveNext()
+                                Wend
+                                rss.Close()
+                              %>
+                            </tbody>
+                          </table>
+                        </div>
+                        <h6 class="card-subtitle my-2 text-muted">Shipment: <%=rs("shipment")%></h6>
+                        <h6 class="card-subtitle my-2 text-muted">Gift Code: 
+                          <%If NOT IsNull(rs("giftCode")) AND Trim(rs("giftCode"))<>"" Then
+                              Response.write( rs("giftCode"))
+                              Response.write("[ -" & rs("discount")&"$ ]")
+                            Else
+                              Response.write("None")
+                            End If%>
+                        </h6>
+                        <h5>Total Price: <%=rs("totalPrice")%> $</h5>
+                        <form method="post" action="billCompleteAdmin.asp">
+                          <input type="hidden" name= "idBill" value="<%=id%>">
+                          <button type="submit" class="btn btn-success my-2"<%If rs("orderStatus") = "False" Then Response.Write("disabled")%>>Complete Order</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <h5 class="card-title fw-semibold mb-4">Information of Customer</h5>
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Name: <%=rs("name")%></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Address: <%=(rs("city")&", "&rs("district")&", "&rs("ward")&", "&rs("address"))%></h6>
+                        <p class="card-text">Phone Number: <%=rs("phone")%></p>
+                      </div>
+                    </div>
+                  </div>
+                  <%connDB.Close()%>
                 </div>
               </div>
             </div>

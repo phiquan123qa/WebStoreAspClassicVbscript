@@ -1,3 +1,63 @@
+<%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
+<!--#include file="../connect.asp"-->
+<%
+Dim key
+    function Ceil(Number)
+        Ceil = Int(Number)
+        if Ceil<>Number Then
+            Ceil = Ceil + 1
+        end if
+    end function
+
+    function checkPage(cond, ret) 
+        if cond=true then
+            Response.write ret
+        else
+            Response.write ""
+        end if
+    end function
+
+    page = Request.QueryString("page")
+    limit = 6
+
+    if (trim(page) = "") or (isnull(page)) then
+        page = 1
+    end if
+
+    offset = (Clng(page) * Clng(limit)) - Clng(limit)
+
+    Dim cmdd
+    set cmdd = Server.CreateObject("ADODB.Command")
+    connDB.Open()
+    cmdd.ActiveConnection = connDB
+    cmdd.CommandType=1
+    cmdd.Prepared=true
+    If (Request.ServerVariables("REQUEST_METHOD")= "GET")Then
+        active = Request.QueryString("active")
+        if(TRIM(active)="avaliable") then
+          active = " amount > 0"
+        Elseif(TRIM(status)="expired") then
+          active = " amount < 1"
+        Else
+          active = " 1 = 1"
+        end if
+          cmdd.CommandText = "SELECT COUNT(giftCode) AS count FROM giftCode WHERE"& active
+    END IF
+    Dim rss
+    set rss = cmdd.Execute()
+    
+
+    totalRows = CLng(rss("count"))
+
+    Set rss = Nothing
+    pages = Ceil(totalRows/limit)
+    Dim range
+    If (pages<=15) Then
+        range = pages
+    Else
+        range = 99
+    End if
+%>
 <!doctype html>
 <html lang="en">
 
@@ -8,6 +68,7 @@
   <link rel="icon" type="image/png" href="../images/logos/qtdlogo.png" />
   <link rel="stylesheet" href="../css/styles.min.css" />
   <link rel="stylesheet" href="../css/tabler-icons/tabler-icons.css" />
+  <link rel="stylesheet" href="../css/pagination.css" />
 </head>
 
 <body>
@@ -114,259 +175,88 @@
       <div class="container-fluid">
         <!--  Row 1 -->
         <div class="row">
-          <div class="col-lg-8 d-flex align-items-strech">
-            <div class="card w-100">
-              <div class="card-body">
-                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                  <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Sales Overview</h5>
-                  </div>
-                  <div>
-                    <select class="form-select">
-                      <option value="1">March 2023</option>
-                      <option value="2">April 2023</option>
-                      <option value="3">May 2023</option>
-                      <option value="4">June 2023</option>
-                    </select>
-                  </div>
-                </div>
-                <div id="chart"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="row">
-              <div class="col-lg-12">
-                <!-- Yearly Breakup -->
-                <div class="card overflow-hidden">
-                  <div class="card-body p-4">
-                    <h5 class="card-title mb-9 fw-semibold">Yearly Breakup</h5>
-                    <div class="row align-items-center">
-                      <div class="col-8">
-                        <h4 class="fw-semibold mb-3">$36,358</h4>
-                        <div class="d-flex align-items-center mb-3">
-                          <span
-                            class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-up-left text-success"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <div class="me-4">
-                            <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                          <div>
-                            <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">2023</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="d-flex justify-content-center">
-                          <div id="breakup"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <!-- Monthly Earnings -->
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row alig n-items-start">
-                      <div class="col-8">
-                        <h5 class="card-title mb-9 fw-semibold"> Monthly Earnings </h5>
-                        <h4 class="fw-semibold mb-3">$6,820</h4>
-                        <div class="d-flex align-items-center pb-1">
-                          <span
-                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-arrow-down-right text-danger"></i>
-                          </span>
-                          <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                          <p class="fs-3 mb-0">last year</p>
-                        </div>
-                      </div>
-                      <div class="col-4">
-                        <div class="d-flex justify-content-end">
-                          <div
-                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-currency-dollar fs-6"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="earning"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 d-flex align-items-stretch">
+          <div class="col-lg-12  d-flex align-items-stretch">
             <div class="card w-100">
               <div class="card-body p-4">
-                <div class="mb-4">
-                  <h5 class="card-title fw-semibold">Recent Transactions</h5>
+                <div class="mb-4 d-flex justify-content-between">
+                  <h5 class="card-title fw-semibold">Gift Code</h5>
+                  <%active = Request.QueryString("active")%>
+                  <form action="giftAdmin.asp" class="d-flex" id="formStatus" method="get">
+                    <div class="ps-2">
+                      <input type="radio"  id="all" name="active" value="" <%=checkPage(active="", "checked")%>>
+                      <label for="all">All</label><br>
+                    </div>
+                    <div class="ps-2">
+                      <input type="radio" id="prepare" name="active" value="avaliable" <%=checkPage(active="avaliable", "checked")%>>
+                      <label for="prepare">Avaliable</label><br>
+                    </div>
+                    <div class="ps-2">
+                      <input type="radio" id="complete" name="active" value="expired" <%=checkPage(active="expired", "checked")%>>
+                      <label for="complete">Expired</label>
+                    </div>
+                  </form>
                 </div>
-                <ul class="timeline-widget mb-0 position-relative mb-n5">
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">09:30</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
-                      <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1">Payment received from John Doe of $385.90</div>
-                  </li>
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">10:00 am</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-info flex-shrink-0 my-8"></span>
-                      <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New sale recorded <a
-                        href="javascript:void(0)" class="text-primary d-block fw-normal">#ML-3467</a>
-                    </div>
-                  </li>
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">12:00 am</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
-                      <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1">Payment was made of $64.95 to Michael</div>
-                  </li>
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">09:30 am</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-warning flex-shrink-0 my-8"></span>
-                      <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New sale recorded <a
-                        href="javascript:void(0)" class="text-primary d-block fw-normal">#ML-3467</a>
-                    </div>
-                  </li>
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">09:30 am</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-danger flex-shrink-0 my-8"></span>
-                      <span class="timeline-badge-border d-block flex-shrink-0"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New arrival recorded 
-                    </div>
-                  </li>
-                  <li class="timeline-item d-flex position-relative overflow-hidden">
-                    <div class="timeline-time text-dark flex-shrink-0 text-end">12:00 am</div>
-                    <div class="timeline-badge-wrap d-flex flex-column align-items-center">
-                      <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
-                    </div>
-                    <div class="timeline-desc fs-3 text-dark mt-n1">Payment Done</div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8 d-flex align-items-stretch">
-            <div class="card w-100">
-              <div class="card-body p-4">
-                <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+                <a href="addGiftCodeAdmin.asp"><button type="button" class="btn btn-primary mb-3">Add Gift Code</button></a>
                 <div class="table-responsive">
                   <table class="table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                       <tr>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Id</h6>
+                          <h6 class="fw-semibold mb-0">Gift Code</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Assigned</h6>
+                          <h6 class="fw-semibold mb-0">Discount</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Name</h6>
+                          <h6 class="fw-semibold mb-0">Expire</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Priority</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Budget</h6>
+                          <h6 class="fw-semibold mb-0">Amount</h6>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
+                    <%
+                      Dim cmddd
+                      set cmddd = Server.CreateObject("ADODB.Command")
+                      cmddd.ActiveConnection = connDB
+                      cmddd.CommandType=1
+                      cmddd.Prepared=true
+                      If (Request.ServerVariables("REQUEST_METHOD")= "GET")Then
+                          active = Request.QueryString("active")
+                          if(TRIM(active)="avaliable") then
+                            active = " amount > 0"
+                          Elseif(TRIM(status)="expired") then
+                            active = " amount < 1"
+                          Else
+                            active = " 1 = 1"
+                          end if
+                      cmddd.CommandText = "SELECT * FROM GiftCode WHERE "& active &" ORDER BY expire OFFSET "& offset &" ROWS FETCH NEXT "& limit &" ROWS ONLY"
+                      END IF
+                      Dim rsss
+                      set rsss = cmddd.Execute()
+                    %>
+                    <%While Not rsss.EOF %>
                       <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
                         <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
-                            <span class="fw-normal">Web Designer</span>                          
+                            <h6 class="fw-semibold mb-0"><%=rsss("giftCode")%></h6>                       
                         </td>
                         <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Elite Admin</p>
+                          <p class="mb-0 fw-normal"><%=rsss("discount")%></p>
                         </td>
                         <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                          </div>
+                          <p class="mb-0 fw-normal"><%=rsss("expire")%></p>
                         </td>
                         <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
+                          <p class="mb-0 fw-normal"><%=rsss("amount")%></p>
                         </td>
                       </tr> 
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
-                            <span class="fw-normal">Project Manager</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Real Homes WP Theme</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                        </td>
-                      </tr> 
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                            <span class="fw-normal">Project Manager</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                        </td>
-                      </tr>      
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                            <span class="fw-normal">Frontend Engineer</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Hosting Press HTML</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                        </td>
-                      </tr>                       
+                      <%
+                        rsss.MoveNext()
+                        Wend
+                        rsss.Close()
+                        connDB.Close()
+                      %>
                     </tbody>
                   </table>
                 </div>
@@ -374,6 +264,29 @@
             </div>
           </div>
         </div>
+        <div class="pagination-container">
+              <div class="pagination">
+              <% 
+              status = Request.QueryString("status")
+                  if (pages>1) then
+                      if(Clng(page)>=2) then%>
+                          <a class="pagination-newer" href="giftAdmin.asp?active=<%=active%>&page=<%=Clng(page)-1%>">Prev</a>
+                  <%    
+                      end if 
+                      for i= 1 to range%>
+                          <a class="a_pagination <%=checkPage(Clng(i)=Clng(page),"pagination-active")%>" href="giftAdmin.asp?active=<%=active%>&page=<%=i%>"><%=i%></a>
+                  <%
+                      next
+                      if (Clng(page)<pages) then%>
+                          <a class="pagination-older" href="giftAdmin.asp?active=<%=active%>&page=<%=Clng(page)+1%>">Next</a>
+                  <%
+                      end if    
+                  end if
+                  %>
+                  </div>
+              </div>
+
+
       </div>
     </div>
   </div>
@@ -384,5 +297,14 @@
   <script src="../js/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../js/libs/simplebar/dist/simplebar.js"></script>
   <script src="../js/dashboard.js"></script>
+ <script>
+  const form = document.getElementById('formStatus');
+  const radioButtons = form.querySelectorAll('input[type="radio"]');
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', () => {
+      form.submit();
+    });
+  });
+</script>
 </body>
 </html>

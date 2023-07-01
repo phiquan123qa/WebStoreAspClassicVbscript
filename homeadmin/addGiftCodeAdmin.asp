@@ -1,51 +1,35 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <!--#include file="../connect.asp"-->
 <%
-Dim key
-    function Ceil(Number)
-        Ceil = Int(Number)
-        if Ceil<>Number Then
-            Ceil = Ceil + 1
-        end if
-    end function
+If (Request.ServerVariables("REQUEST_METHOD")= "POST")Then
 
-    function checkPage(cond, ret) 
-        if cond=true then
-            Response.write ret
-        else
-            Response.write ""
-        end if
-    end function
+    Dim giftcode, discount, expired, amount
+    giftcode = Request.Form("giftcode")
+    discount = Request.Form("discount")
+    expired = Request.Form("expired")
+    amount = Request.Form("amount")
 
-    page = Request.QueryString("page")
-    limit = 6
-
-    if (trim(page) = "") or (isnull(page)) then
-        page = 1
-    end if
-
-    offset = (Clng(page) * Clng(limit)) - Clng(limit)
-
-    Dim cmdd
-    set cmdd = Server.CreateObject("ADODB.Command")
-    connDB.Open()
-    cmdd.ActiveConnection = connDB
-    cmdd.CommandType=1
-    cmdd.Prepared=true
-    cmdd.CommandText = "SELECT COUNT(id) AS count FROM Feedback"
-    Dim rss
-    set rss = cmdd.Execute()
-    
-    totalRows = CLng(rss("count"))
-
-    Set rss = Nothing
-    pages = Ceil(totalRows/limit)
-    Dim range
-    If (pages<=15) Then
-        range = pages
-    Else
-        range = 99
+    If (NOT isnull(giftcode) AND NOT isnull(discount) AND NOT isnull(expired) AND NOT isnull(amount) AND TRIM(giftcode)<>""AND TRIM(discount)<>""AND TRIM(expired)<>""AND TRIM(amount)<>"") Then
+        Dim sqlCheck
+        sqlCheck = "INSERT INTO GiftCode ( giftcode, discount, expire, amount) VALUES(?, ?, ? ,? )"
+        Dim cmdPrep
+        set cmdPrep = Server.CreateObject("ADODB.Command")
+        connDB.Open()
+        cmdPrep.ActiveConnection = connDB
+        cmdPrep.CommandType=1
+        cmdPrep.Prepared=true
+        cmdPrep.CommandText = sqlCheck
+        cmdPrep.Parameters(0)=giftcode
+        cmdPrep.Parameters(1)=discount
+        cmdPrep.Parameters(2)=expired
+        cmdPrep.Parameters(3)=amount
+        Dim result
+        set result = cmdPrep.execute()
+        Session("SuccessAddGiftCode")="Add Successfully."
+        connDB.Close()
+        Response.redirect("addGiftCodeAdmin.asp")
     End if
+End if
 %>
 <!doctype html>
 <html lang="en">
@@ -164,87 +148,45 @@ Dim key
       <div class="container-fluid">
         <!--  Row 1 -->
         <div class="row">
+            <%
+				If NOT isnull(Session("SuccessAddGiftCode")) AND TRIM(Session("SuccessAddGiftCode"))<>"" Then
+					Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("SuccessAddGiftCode")&"</div>")
+    				Session("SuccessAddGiftCode") = null
+				End If
+			%>
           <div class="col-lg-12  d-flex align-items-stretch">
             <div class="card w-100">
               <div class="card-body p-4">
                 <div class="mb-4 d-flex justify-content-between">
-                  <h5 class="card-title fw-semibold">Recent Feedback</h5>
+                  <h5 class="card-title fw-semibold">Add Gift Code</h5>
                 </div>
-                <div class="table-responsive">
-                  <table class="table text-nowrap mb-0 align-middle">
-                    <thead class="text-dark fs-4">
-                      <tr>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Id</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Name User</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Email</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Comment</h6>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <%
-                      Dim cmddd
-                      set cmddd = Server.CreateObject("ADODB.Command")
-                      cmddd.ActiveConnection = connDB
-                      cmddd.CommandType=1
-                      cmddd.Prepared=true
-                      cmddd.CommandText = "SELECT id, [name], email, comment FROM Feedback ORDER BY id DESC OFFSET "& offset &" ROWS FETCH NEXT "& limit &" ROWS ONLY"
-                      Dim rsss
-                      set rsss = cmddd.Execute()
-                    %>
-                    <%While Not rsss.EOF %>
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0"><%=rsss("id")%></h6></td>
-                        <td class="border-bottom-0">
-                            <p class="mb-0 fw-normal"><%=rsss("name")%></p>                        
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal"><%=rsss("email")%></p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal"><%=rsss("comment")%> $</p>
-                        </td>
-                      </tr> 
-                      <%
-                        rsss.MoveNext()
-                        Wend
-                        rsss.Close()
-                        connDB.Close()
-                      %>
-                    </tbody>
-                  </table>
-                </div>
+                <form method="post" action="addGiftCodeAdmin.asp">
+                        <div class="mb-2">
+                            <label for="giftcode" class="form-label">Gift Code</label>
+                            <input type="text" class="form-control" id="giftcode" name="giftcode" placeholder="Input Gift Code" >
+                        </div>
+                        <div class="mb-2">
+                            <label for="discount" class="form-label">Discount</label>
+                            <input type="number" class="form-control" id="discount" name="discount" placeholder="Input Discount">
+                        </div>
+                        <div class="mb-2">
+                            <label for="expired" class="form-label">Expired</label>
+                            <input type="date" class="form-control" id="expired" name="expired" placeholder="Input Expired">
+                        </div>
+                        <div class="mb-2">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="Input Amount">
+                        </div>
+                        <div class="mb-2 d-flex justify-content-between">
+                            <a class="mt-3" href="giftAdmin.asp">Back</a>
+                            <button type="submit" class="btn btn-primary"> Submit </button>
+                        </div>
+                    </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-        <div class="pagination-container">
-              <div class="pagination">
-              <% 
-                  if (pages>1) then
-                      if(Clng(page)>=2) then%>
-                          <a class="pagination-newer" href="feedbackAdmin.asp?page=<%=Clng(page)-1%>">Prev</a>
-                  <%    
-                      end if 
-                      for i= 1 to range%>
-                          <a class="a_pagination <%=checkPage(Clng(i)=Clng(page),"pagination-active")%>" href="feedbackAdmin.asp?page=<%=i%>"><%=i%></a>
-                  <%
-                      next
-                      if (Clng(page)<pages) then%>
-                          <a class="pagination-older" href="feedbackAdmin.asp?page=<%=Clng(page)+1%>">Next</a>
-                  <%
-                      end if    
-                  end if
-                  %>
-                  </div>
-              </div>
       </div>
     </div>
   </div>
@@ -255,5 +197,11 @@ Dim key
   <script src="../js/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../js/libs/simplebar/dist/simplebar.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script type="text/javascript">
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+    </script>
 </body>
 </html>

@@ -1,35 +1,37 @@
 
 <!--#include file="../connect.asp"-->
 <%
-Dim Pname, Ptype, Pbrand, Pprice, Pcost, Pdescribe
-Pname = Request.Form("name")
-Ptype = Request.Form("type")
-Pbrand = Request.Form("brand")
-Pprice = Request.Form("price")
-Pcost = Request.Form("cost")
-Pdescribe = Request.Form("describe")
+If (Request.ServerVariables("REQUEST_METHOD")= "POST")Then
+    Dim Pname, Ptype, Pbrand, Pprice, Pcost, Pdescribe
+    Pname = Request.Form("name")
+    Ptype = Request.Form("type")
+    Pbrand = Request.Form("brand")
+    Pprice = Request.Form("price")
+    Pcost = Request.Form("cost")
+    Pdescribe = Request.Form("describe")
 
-If (NOT isnull(Pname) AND NOT isnull(Ptype) AND NOT isnull(Pbrand) AND NOT isnull(Pprice) AND NOT isnull(Pcost) AND NOT isnull(Pdescribe) AND TRIM(Pname)<>""AND TRIM(Ptype)<>""AND TRIM(Pbrand)<>""AND TRIM(Pprice)<>""AND TRIM(Pcost)<>""AND TRIM(Pdescribe)<>"") Then
-        Dim sqlCheck
-        sqlCheck = "INSERT INTO Products([name], [type], brand, price, cost, describe, isEnabled) VALUES(?, ?, ? ,? ,? ,?, DEFAULT)"
-        Dim cmdPrep
-        set cmdPrep = Server.CreateObject("ADODB.Command")
-        connDB.Open()
-        cmdPrep.ActiveConnection = connDB
-        cmdPrep.CommandType=1
-        cmdPrep.Prepared=true
-        cmdPrep.CommandText = sqlCheck
-        cmdPrep.Parameters(0)=Pname
-        cmdPrep.Parameters(1)=Ptype
-        cmdPrep.Parameters(2)=Pbrand
-        cmdPrep.Parameters(3)=Pprice
-        cmdPrep.Parameters(4)=Pcost
-        cmdPrep.Parameters(5)=Pdescribe
-        Dim result
-        set result = cmdPrep.execute()
-        Session("Success")="Add Successfully."
-        connDB.Close()
-        Response.redirect("productsAdmin.asp") 
+    If (NOT isnull(Pname) AND NOT isnull(Ptype) AND NOT isnull(Pbrand) AND NOT isnull(Pprice) AND NOT isnull(Pcost) AND NOT isnull(Pdescribe) AND TRIM(Pname)<>""AND TRIM(Ptype)<>""AND TRIM(Pbrand)<>""AND TRIM(Pprice)<>""AND TRIM(Pcost)<>""AND TRIM(Pdescribe)<>"") Then
+            Dim sqlCheck
+            sqlCheck = "INSERT INTO Products([name], [type], brand, price, cost, describe, isEnabled) VALUES(?, ?, ? ,? ,? ,?, DEFAULT)"
+            Dim cmdPrep
+            set cmdPrep = Server.CreateObject("ADODB.Command")
+            connDB.Open()
+            cmdPrep.ActiveConnection = connDB
+            cmdPrep.CommandType=1
+            cmdPrep.Prepared=true
+            cmdPrep.CommandText = sqlCheck
+            cmdPrep.Parameters(0)=Pname
+            cmdPrep.Parameters(1)=Ptype
+            cmdPrep.Parameters(2)=Pbrand
+            cmdPrep.Parameters(3)=Pprice
+            cmdPrep.Parameters(4)=Pcost
+            cmdPrep.Parameters(5)=Pdescribe
+            Dim result
+            set result = cmdPrep.execute()
+            Session("Success")="Add Successfully."
+            connDB.Close()
+            Response.redirect("productsAdmin.asp") 
+    End if
 End if
 %>
 <!DOCTYPE html>
@@ -45,7 +47,7 @@ End if
         <div class="row justify-content-center">
         <div class="col-md-6 "> 
             <form method="post" action="addProductsAdmin.asp">
-                <div style = "text-align: center"><h1> Thêm Sản Phẩm </h1></div>
+                <div style = "text-align: center"><h1> Add Products </h1></div>
                     <div class="mb-2">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Input name" >

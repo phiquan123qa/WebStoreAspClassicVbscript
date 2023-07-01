@@ -38,8 +38,6 @@
         result.Close()
         connDB.Close()
     End if
-    
-
 %>
 <!DOCTYPE html>
     <head>

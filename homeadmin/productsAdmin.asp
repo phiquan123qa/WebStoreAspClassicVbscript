@@ -349,18 +349,16 @@ connDB.Close()
               set rs = cmd.Execute()
               While Not rs.EOF %>
                 <div class="col-md-3 p-1">
-                  <div class="card" style="height:500px">
+                  <div class="card" style = "min-height:30rem">
                     <img src="../img/list/<%= rs("mainImage")%>" class="card-img-top" alt="...">
                     <div class="card-body d-flex flex-wrap align-content-between">
-                      <div>
-                        <h5 class="card-title"><%= rs("name") %></h5>
-                        <p class="card-text"><%=rs("describe")%></p>
+                      <div style="width:14rem">
+                        <h5 class="card-title mb-3"><%= rs("name") %></h5>
                         <h5 class="card-title" style="font-size: 13px;">Cost: <%= rs("cost") %>$</h5>
                         <h5 class="card-title" style="font-size: 13px;">Price <%= rs("price") %>$</h5>
                       </div>
                       <div>
                         <a href="editProductsAdmin.asp?id=<%=rs("id")%>" class="btn btn-primary">Edit</a>
-                        <a href="deleteProductAdmin.asp?id=<%=rs("id")%>" class="btn btn-primary">Delete</a>
                       </div>
                     </div>
                   </div>

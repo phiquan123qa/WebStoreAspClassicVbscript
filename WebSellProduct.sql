@@ -63,9 +63,9 @@ urlImg VARCHAR(255)
 GO
 CREATE TABLE Feedback(
 id int IDENTITY(1, 1) PRIMARY KEY,
-accId int,
+[name] NVARCHAR(255),
+email NVARCHAR(255),
 comment NVARCHAR(255),
-FOREIGN KEY (accId) REFERENCES Account(id)
 )
 
 GO

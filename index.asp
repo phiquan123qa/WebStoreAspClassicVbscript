@@ -122,204 +122,6 @@ End if
             </div>
           </div>
         </div>
-        <div class="section-container">
-          <div class="max-width-container">
-            <div class="section-heading-section-heading">
-              <h1 class="section-heading-text Heading-2">
-                <span>TRENDING ITEMS</span>
-              </h1>
-              <span class="section-heading-text1">
-                <span>
-                  Explore our monthly most trending products, new items and
-                  the best Mobilio offers you can buy
-                </span>
-              </span>
-            </div>
-            <div class="home-gallery">
-              <div class="home-left1">
-                <div class="item-card-gallery-card item-card-root-class-name4">
-                  <img alt="image"
-                    src="./img/watch-preview.jpg"
-                    class="item-card-image" />
-                  <div class="item-card-container">
-                    <h3 class="item-card-text"><span>Apple Watch Seri 5</span></h3>
-                    <div class="item-card-container1">
-                      <svg viewBox="0 0 1024 1024" class="item-card-icon">
-                        <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
-                      </svg><svg viewBox="0 0 1024 1024" class="item-card-icon02">
-                        <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
-                      </svg><svg viewBox="0 0 1024 1024" class="item-card-icon04">
-                        <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
-                      </svg><svg viewBox="0 0 1024 1024" class="item-card-icon06">
-                        <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
-                      </svg><svg viewBox="0 0 1024 1024" class="item-card-icon08">
-                        <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
-                      </svg>
-                    </div>
-                    <div class="item-card-container2">
-                      <span class="item-card-currency"><span>$</span></span>
-                      <span class="item-card-value"><span>349</span></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="home-right1">
-                <div class="home-top">
-                  <div class="home-left2">
-                    <div class="item-card-gallery-card item-card-root-class-name2">
-                      <img alt="image"
-                        src="./img/audio-preview.jpg"
-                        class="item-card-image" />
-                      <div class="item-card-container">
-                        <h3 class="item-card-text">
-                          <span>Luxury Audio</span>
-                        </h3>
-                        <div class="item-card-container1">
-                          <svg viewBox="0 0 1024 1024" class="item-card-icon">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon02">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon04">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon06">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon08">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg>
-                        </div>
-                        <div class="item-card-container2">
-                          <span class="item-card-currency">
-                            <span>$</span>
-                          </span>
-                          <span class="item-card-value">
-                            <span>2990</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="home-right2">
-                    <div class="item-card-gallery-card item-card-root-class-name3">
-                      <img alt="image"
-                        src="./img/chair-preview.jpeg"
-                        class="item-card-image" />
-                      <div class="item-card-container">
-                        <h3 class="item-card-text">
-                          <span>Herman Miller Ergonomic Chairs</span>
-                        </h3>
-                        <div class="item-card-container1">
-                          <svg viewBox="0 0 1024 1024" class="item-card-icon">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon02">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon04">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon06">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon08">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg>
-                        </div>
-                        <div class="item-card-container2">
-                          <span class="item-card-currency">
-                            <span>$</span>
-                          </span>
-                          <span class="item-card-value">
-                            <span>299</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="home-bottom">
-                  <div class="home-left3">
-                    <div class="item-card-gallery-card item-card-root-class-name1">
-                      <img alt="image"
-                        src="./img/mouse-preview.jpg"
-                        class="item-card-image" />
-                      <div class="item-card-container">
-                        <h3 class="item-card-text">
-                          <span>Asus ROG Pugio II</span>
-                        </h3>
-                        <div class="item-card-container1">
-                          <svg viewBox="0 0 1024 1024" class="item-card-icon">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon02">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon04">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon06">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon08">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg>
-                        </div>
-                        <div class="item-card-container2">
-                          <span class="item-card-currency">
-                            <span>$</span>
-                          </span>
-                          <span class="item-card-value">
-                            <span>549</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="home-right3">
-                    <div class="item-card-gallery-card item-card-root-class-name6">
-                      <img alt="image"
-                        src="./img/keyboard-preview.jpg"
-                        class="item-card-image" />
-                      <div class="item-card-container">
-                        <h3 class="item-card-text"><span>Lequency Gaming Keyboard</span></h3>
-                        <div class="item-card-container1">
-                          <svg viewBox="0 0 1024 1024" class="item-card-icon">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon02">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon04">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon06">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg><svg viewBox="0 0 1024 1024" class="item-card-icon08">
-                            <path d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z">
-                            </path>
-                          </svg>
-                        </div>
-                        <div class="item-card-container2">
-                          <span class="item-card-currency">
-                            <span>$</span>
-                          </span>
-                          <span class="item-card-value"><span>300</span></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="home-full-width-banner section-container">
           <div class="home-bannerr1">
@@ -345,7 +147,7 @@ End if
                 </span>
               </span>
               <div class="home-containerr07">
-                <%If isnull(Session("email"))Then
+                <%If isnull(Session("email")) OR TRIM(Session("email"))=""Then
                     Response.Write("<a href='/register.asp'>")
                   Else
                     Response.Write("<a href=''>")
@@ -357,7 +159,7 @@ End if
                   <span class="home-textt27">
                     &nbsp; Allready have account?&nbsp;
                   </span>
-                  <%If isnull(Session("email"))Then
+                  <%If isnull(Session("email")) OR TRIM(Session("email"))=""Then
                     Response.Write("<a href='/login.asp'>")
                   Else
                     Response.Write("<a href=''>")
@@ -386,20 +188,11 @@ End if
               <span class="home-text26">qtdstoresupport@gmail.com</span>
             </div>
             <div class="home-links-container">
-              <div class="home-container07">
-                <span class="home-text27">Categories</span>
-                <span class="home-text28">Collections</span>
-                <span class="home-text29">Desks</span>
-                <span class="home-text30">Furniture</span>
-                <span class="home-text31">Lamps</span>
-                <span class="home-text32">Plants</span>
-                <span class="home-text33">Decoration</span>
-              </div>
               <div class="home-container08">
                 <span class="home-text34">Company</span>
-                <span class="home-text35">Shop</span>
-                <span class="home-text36">About</span>
-                <span class="home-text37">Contact us</span>
+                <span class="home-text35"><a href="listproducts.asp?key=&sort=hot">Shop</a></span>
+                <span class="home-text36"><a href="feedback.asp">About</a></span>
+                <span class="home-text37"><a href="feedback.asp">Contact us</a></span>
               </div>
             </div>
           </footer>

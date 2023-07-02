@@ -188,6 +188,12 @@ connDB.Close()
       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                  <%
+				If  NOT isnull(Session("SuccessAddProduct")) AND TRIM(Session("SuccessAddProduct"))<>"" Then
+					Response.write("<div id='alert' role='alert' class='alert alert-danger d-flex justify-content-center mt-3' style='width:40rem; left:200px'>"&Session("SuccessAddProduct")&"</div>")
+    				Session("SuccessAddProduct") = ""
+				End If
+				%>
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
@@ -294,7 +300,7 @@ connDB.Close()
                   </div>
                 </div>
               </form>
-              <a href="addProductsAdmin.asp"><button type="button" class="btn btn-primary">Add Product</button></a>
+              <a href="addProductsAdmin.asp"><button type="button" class="btn btn-primary mb-3">Add Product</button></a>
               <div class="products d-flex flex-wrap">
               <%
               Dim cmd
@@ -433,6 +439,12 @@ connDB.Close()
   <script src="../js/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../js/libs/simplebar/dist/simplebar.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script type="text/javascript">
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+  </script>
 </body>
 
 </html>

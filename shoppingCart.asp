@@ -55,7 +55,7 @@ End Sub
                             <div class="col align-self-center text-right text-muted"><%=itemCount%> items</div>
                         </div>
                     </div>
-                    <%if(itemCount<1) then
+                    <%if(itemCount<1 or IsNull(currentCarts) or IsEmpty(currentCarts)) then
                         If (NOT isnull(Session("GiftCode")) AND TRIM(Session("GiftCode"))<>"") Then
                             Session.Contents.Remove("GiftCode")
                             Session.Contents.Remove("discount")
@@ -122,7 +122,7 @@ End Sub
 
 
 
-                    <div class="back-to-shop"><a href="index.asp">&leftarrow;<span class="text-muted">Back to shop</span></a></div>
+                    <div class="back-to-shop"><a href="listproducts.asp?key=&sort=hot">&leftarrow;<span class="text-muted">Back to shop</span></a></div>
                 </div>
 
                 <form method="post" action="createBill.asp" class="col-md-8 info" id="info" style="display:none">

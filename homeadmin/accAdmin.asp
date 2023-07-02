@@ -320,10 +320,6 @@ Dim key
             </div>
           </div>
         </div>
-
-
-
-
         <div class="pagination-container">
               <div class="pagination">
               <% 
@@ -343,10 +339,8 @@ Dim key
                       end if    
                   end if
                   %>
-                  </div>
-              </div>
-
-
+                </div>
+          </div>
       </div>
     </div>
   </div>
@@ -357,14 +351,14 @@ Dim key
   <script src="../js/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../js/libs/simplebar/dist/simplebar.js"></script>
   <script src="../js/dashboard.js"></script>
- <script>
-  const form = document.getElementById('formEnable');
-  const radioButtons = form.querySelectorAll('input[type="radio"]');
-  radioButtons.forEach(radio => {
-    radio.addEventListener('change', () => {
-      form.submit();
+  <script>
+    const form = document.getElementById('formEnable');
+    const radioButtons = form.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', () => {
+        form.submit();
+      });
     });
-  });
-</script>
-</body>
+  </script>
+  </body>
 </html>

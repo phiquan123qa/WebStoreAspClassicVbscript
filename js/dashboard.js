@@ -7,14 +7,13 @@ $(function () {
   var chart = {
     series: [
       { name: "Earnings this month:", data: [355, 390, 300, 350, 390, 180, 355, 390] },
-      { name: "Expense this month:", data: [280, 250, 325, 215, 250, 310, 280, 250] },
     ],
 
     chart: {
       type: "bar",
       height: 345,
       offsetX: -15,
-      toolbar: { show: true },
+      toolbar: { show: false },
       foreColor: "#adb0bb",
       fontFamily: 'inherit',
       sparkline: { enabled: false },

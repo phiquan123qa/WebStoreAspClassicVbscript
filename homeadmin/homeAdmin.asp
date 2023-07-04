@@ -26,20 +26,20 @@
     Set Result2 = connDB.execute(strSQL2)
     Dim j
     j = 1
-    totalProducts = 0
     While Not Result2.EOF
   %>
     <input type="hidden" id="Type<%=j%>" value="<%=Result2("type")%>">
     <input type="hidden" id="Count<%=j%>" value="<%=Result2("count")%>">
   <%
     j=j+1
-    totalProducts = totalProducts + CInt(Result2("count"))
     Result2.MoveNext()
     Wend
 
-    connDB.Close()
+    strSQL3 = "SELECT SUM(quantity) AS totalQuantity FROM ProductsDetail;"
+    Set Result3 = connDB.execute(strSQL3)
   %>
-  <input type="hidden" id="TotalProducts" value="<%=totalProducts%>">
+  <input type="hidden" id="TotalProducts" value="<%=Result3("totalQuantity")%>">
+  <% connDB.Close()%>
 <!doctype html>
 <html lang="en">
 <head>

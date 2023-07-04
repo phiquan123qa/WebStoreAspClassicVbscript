@@ -13,10 +13,6 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
     Else
         giftCode = 0
     End if
-    'Session("Shipment") = Shipment
-    Response.Write("ship="&Shipment)
-    Response.Write("gift="&giftCode)
-    Response.Write("total="&totalPrice)
     totalPrice = CInt(totalPrice) + CInt(Shipment) - CInt(giftCode)
 
 	If(Not isnull(Session("email")) And Trim(Session("email"))<>"")Then
@@ -27,12 +23,10 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
         cmdPrepppp.CommandType = 1
         cmdPrepppp.CommandText = "SELECT * FROM Account WHERE email = ? AND isEnabled = 1"
         cmdPrepppp.Parameters(0)=Session("email")
-        Response.Write(cmdPrepppp.CommandText)
         Set rssss = cmdPrepppp.execute()
 		If not rssss.EOF then
 			idAcc=rssss("id")
 		End if
-		Response.Write(idAcc)
 		rssss.Close()
         connDB.Close()
 
@@ -44,7 +38,6 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
         cmdPrep.CommandType = 1
         cmdPrep.CommandText = "SELECT * FROM Account WHERE phone = ? AND isEnabled = 1"
         cmdPrep.Parameters(0)=phone
-        Response.Write(cmdPrep.CommandText)
         Set rs = cmdPrep.execute()
         If rs.EOF Then
             Dim cmdPrepp, responseType
@@ -56,7 +49,6 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
             cmdPrepp.Parameters(1)=phone
             cmdPrepp.Parameters(2)=address
             Set rss = cmdPrepp.execute()
-            Response.Write(cmdPrepp.CommandText)
             idAcc=rss.Fields("id").Value
             'rss.Close()
         Else 
@@ -66,10 +58,8 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
         rs.Close()
         connDB.Close()
         Session("BillAccSuccess")="Create Acc Success"
-        Response.Write(Session("BillAccSuccess"))
     Else
         Session("BillAccErr")="Please input all field!"
-        Response.Write(Session("BillAccErr"))
     End if
 
 
@@ -84,10 +74,8 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
 	cmdPreppp.Parameters(2)= 1
 	cmdPreppp.Parameters(3)=Session("GiftCode")
 	cmdPreppp.Parameters(4)=Shipment
-    Response.Write(cmdPreppp.CommandText)
     Set rsss = cmdPreppp.execute()
     ordId = rsss.Fields("id").Value
-    Response.Write(ordId)
     rsss.Close()
 
     Dim carts, idProduct, quantity
@@ -115,7 +103,6 @@ If (Request.ServerVariables("REQUEST_METHOD") = "POST") THEN
         Set Session("mycarts") = Server.CreateObject("Scripting.Dictionary")
     End if
     connDB.Close()
-    'Response.redirect("shoppingCart.asp")  
 End if
 %>
 
@@ -720,8 +707,8 @@ End if
 															<td class="pad"
 																style="padding-bottom:15px;padding-left:10px;padding-right:10px;padding-top:15px;text-align:center;">
 																<div align="center" class="alignment">
-																	<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="example.com" style="height:42px;width:155px;v-text-anchor:middle;" arcsize="0%" stroke="false" fillcolor="#4042e2"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Arial, sans-serif; font-size:14px"><![endif]--><a
-																		href="example.com"
+																		<a
+																		href=""
 																		style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#4042e2;border-radius:0px;width:auto;border-top:0px solid #8a3b8f;font-weight:400;border-right:0px solid #8a3b8f;border-bottom:0px solid #8a3b8f;border-left:0px solid #8a3b8f;padding-top:5px;padding-bottom:5px;font-family:Cabin, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"
 																		target="_blank"><span
 																			style="padding-left:35px;padding-right:35px;font-size:14px;display:inline-block;letter-spacing:1px;"><span

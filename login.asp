@@ -68,6 +68,10 @@ End if
 					Response.write("<div id='alert' role='alert' class = 'alert alert-danger d-flex justify-content-center'>"&Session("ErrorLogin")&"</div>")
     				Session("ErrorLogin") = ""
 				End If
+				If  NOT isnull(Session("SuccessRegister")) AND TRIM(Session("SuccessRegister"))<>"" Then
+					Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("SuccessRegister")&"</div>")
+    				Session("SuccessRegister") = ""
+				End If
 				%>
 				<form class="login100-form validate-form" method="post" action="login.asp">
 					<span class="login100-form-title p-b-49">

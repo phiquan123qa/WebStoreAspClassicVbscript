@@ -2,7 +2,6 @@
 <!--#include file="../connect.asp"-->
 <%
 If (Request.ServerVariables("REQUEST_METHOD")= "POST")Then
-
     Dim giftcode, discount, expired, amount
     giftcode = Request.Form("giftcode")
     discount = Request.Form("discount")
@@ -27,7 +26,9 @@ If (Request.ServerVariables("REQUEST_METHOD")= "POST")Then
         set result = cmdPrep.execute()
         Session("SuccessAddGiftCode")="Add Successfully."
         connDB.Close()
-        Response.redirect("addGiftCodeAdmin.asp")
+        Response.redirect("giftAdmin.asp")
+      Else
+        Session("FailAddGiftCode")="All Field Not Be Null"
     End if
 End if
 %>
@@ -149,9 +150,9 @@ End if
         <!--  Row 1 -->
         <div class="row">
             <%
-				If NOT isnull(Session("SuccessAddGiftCode")) AND TRIM(Session("SuccessAddGiftCode"))<>"" Then
-					Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("SuccessAddGiftCode")&"</div>")
-    				Session("SuccessAddGiftCode") = null
+        If NOT isnull(Session("FailAddGiftCode")) AND TRIM(Session("FailAddGiftCode"))<>"" Then
+					Response.write("<div id='alert' role='alert' class = 'alert alert-danger d-flex justify-content-center'>"&Session("FailAddGiftCode")&"</div>")
+    			Session("FailAddGiftCode") = ""
 				End If
 			%>
           <div class="col-lg-12  d-flex align-items-stretch">

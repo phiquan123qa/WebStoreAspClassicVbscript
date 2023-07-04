@@ -36,8 +36,8 @@ Dim key
         active = Request.QueryString("active")
         if(TRIM(active)="avaliable") then
           active = " amount > 0"
-        Elseif(TRIM(status)="expired") then
-          active = " amount < 1"
+        Elseif(TRIM(active)="expired") then
+          active = " amount < 1 OR amount IS NULL "
         Else
           active = " 1 = 1"
         end if
@@ -151,6 +151,12 @@ Dim key
       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+          <%
+            If  NOT isnull(Session("SuccessAddGiftCode")) AND TRIM(Session("SuccessAddGiftCode"))<>"" Then
+              Response.write("<div id='alert' role='alert' class='alert alert-success d-flex justify-content-center mt-3' style='width:40rem; left:200px'>"&Session("SuccessAddGiftCode")&"</div>")
+                Session("SuccessAddGiftCode") = ""
+            End If
+				  %>
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
@@ -226,8 +232,8 @@ Dim key
                           active = Request.QueryString("active")
                           if(TRIM(active)="avaliable") then
                             active = " amount > 0"
-                          Elseif(TRIM(status)="expired") then
-                            active = " amount < 1"
+                          Elseif(TRIM(active)="expired") then
+                            active = " amount < 1 OR amount IS NULL"
                           Else
                             active = " 1 = 1"
                           end if
@@ -267,7 +273,7 @@ Dim key
         <div class="pagination-container">
               <div class="pagination">
               <% 
-              status = Request.QueryString("status")
+              active = Request.QueryString("active")
                   if (pages>1) then
                       if(Clng(page)>=2) then%>
                           <a class="pagination-newer" href="giftAdmin.asp?active=<%=active%>&page=<%=Clng(page)-1%>">Prev</a>
@@ -306,5 +312,11 @@ Dim key
     });
   });
 </script>
+<script type="text/javascript">
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+  </script>
 </body>
 </html>

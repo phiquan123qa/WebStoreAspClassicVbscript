@@ -418,7 +418,7 @@ connDB.Close()
                 </div>
                 <div class="product-details">
                     <span class="product-catagory"><%= rs("type") %></span>
-                    <h4><a href=""><%= rs("name") %></a></h4>
+                    <h4><a href="detailProducts.asp?id=<%=rs("id")%>"><%= rs("name") %></a></h4>
                     <div class="product-bottom-details">
                         <div class="product-price">
                             <%if(rs("cost")=rs("price")) then

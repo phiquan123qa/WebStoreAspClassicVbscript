@@ -41,11 +41,16 @@ End if
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../images/logos/qtdlogo.png" />
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+
     <title>Feedback QTD</title>
     <link rel="stylesheet" href="./css/feedback.css">
 </head>
 <body>
     <div class="background">
+ 
         <div class="container">
             <div class="screen">
                 <div class="screen-header">
@@ -65,6 +70,12 @@ End if
                         <div class="app-title">
                             <span>CONTACT US</span>
                         </div>
+                           <%
+                            If  NOT isnull(Session("Feedbackmsgcss")) AND TRIM(Session("Feedbackmsgcss"))<>"" Then
+                                Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("Feedbackmsgcss")&"</div>")
+                                Session("Feedbackmsgcss") = ""
+                            End If
+                            %>
                         <div class="app-contact">CONTACT INFO : +62 81 314 928 595</div>
                     </div>
                     <form method="post" action="feedback.asp" class="screen-body-item">
@@ -88,5 +99,15 @@ End if
             </div>
         </div>
     </div>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript">
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+    </script>
 </body>
 </html>

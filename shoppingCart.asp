@@ -91,15 +91,22 @@ End Sub
                     %>
                     <div class="row border-top border-bottom">
                         <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
+                            <div class="col-2"><img class="img-fluid" src="img/list/<%=mainImage%>"></div>
                             <div class="col">
                                 <div class="row text-muted"><%=productType%></div>
                                 <div class="row"><%=productName%></div>
+                                <%If rs("quantity") < 10 Then%>
+                                <div class="row" style="color:#ff000087">Only have <%=rs("quantity")%> left</div>
+                                <%End If%>
                             </div>
                             <div class="col" style="display: flex;justify-content: center;align-items: center;">
                                 <a href="subCart.asp?idProduct=<%=idProduct%>">-</a>
-                                <input class="border" id="quantity_<%=idProduct%>" value="<%=quantity%>" style="width:26%;margin-top:25px"/>
+                                <input class="border" id="quantity_<%=idProduct%>" value="<%=quantity%>" style="width:26%;margin-top:25px" readonly/>
+                                <%If quantity < rs("quantity") Then%>
                                 <a href="addCart.asp?idProduct=<%=idProduct%>">+</a>
+                                <%Else%>
+                                <a href="addCart.asp?idProduct=<%=idProduct%>" style="pointer-events: none;">+</a>
+                                <%End If%>
                             </div>
                             <div class="col">$ <%=productPrice%> <a  href="removeCart.asp?idProduct=<%=idProduct%>"><span class="close">&#10005;</span></a></div>
                         </div>

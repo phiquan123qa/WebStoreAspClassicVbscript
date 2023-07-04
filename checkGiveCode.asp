@@ -9,7 +9,7 @@ If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN
         connDB.Open()
         cmdPrep.ActiveConnection = connDB
         cmdPrep.CommandType = 1
-        cmdPrep.CommandText = "SELECT * FROM GiftCode WHERE giftCode=?"
+        cmdPrep.CommandText = "SELECT * FROM GiftCode WHERE giftCode=? AND amount>0"
         cmdPrep.Parameters(0)=code
         Set rs = cmdPrep.execute()
         If Not rs.EOF Then
@@ -18,7 +18,6 @@ If (Request.ServerVariables("REQUEST_METHOD") = "GET") THEN
         Else
             Session.Contents.Remove("GiftCode")
             Session.Contents.Remove("discount")
-
         End If
         rs.Close
         connDB.close()

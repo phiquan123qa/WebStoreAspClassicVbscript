@@ -20,7 +20,7 @@
         cmdd.ActiveConnection = connDB
         cmdd.CommandType=1
         cmdd.Prepared=true
-        cmdd.CommandText = "SELECT p.[name], p.[type], p.brand, o.quantity, p.price FROM Products p LEFT JOIN OrderDetail o ON o.id = p.id WHERE o.orderID = ?"
+        cmdd.CommandText = "SELECT p.[name], p.[type], p.brand, o.quantity, p.price FROM Products p JOIN OrderDetail o ON o.productId = p.id WHERE o.orderID = ?"
         cmdd.Parameters(0)=id
         Dim rss
         set rss = cmdd.Execute()

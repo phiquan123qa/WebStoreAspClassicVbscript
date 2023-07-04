@@ -23,9 +23,9 @@
             Pname = result.Fields("name").Value
             Ptype = result.Fields("type").Value
             Pprice = result.Fields("price").Value
-			Pcost = result.Fields("cost").Value
+			      Pcost = result.Fields("cost").Value
             Pbrand = result.Fields("brand").Value
-			Pdescribe = result.Fields("describe").Value
+			      Pdescribe = result.Fields("describe").Value
             Penable = result.Fields("isEnabled").Value
             Pquantity = result.Fields("quantity").Value
             mainimg = result.Fields("mainImage").Value
@@ -49,6 +49,113 @@
         <link rel="stylesheet" href="../css/tabler-icons/tabler-icons.css" />
     </head>
     <body>
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="./homeAdmin.asp" class="text-nowrap logo-img">
+            <img class="py-3" src="../images/logos/qtdlogo.png" width="150" alt="" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./homeAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-home"></i>
+                </span>
+                <span class="hide-menu">Home</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./productsAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-brand-producthunt"></i>
+                </span>
+                <span class="hide-menu">Products</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./billsAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-receipt-2"></i>
+                </span>
+                <span class="hide-menu">Bills</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./accAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-users"></i>
+                </span>
+                <span class="hide-menu">Accounts</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./giftAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-gift"></i>
+                </span>
+                <span class="hide-menu">Gift Code</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./feedbackAdmin.asp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-description "></i>
+                </span>
+                <span class="hide-menu">Feed Back</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+          <%
+        If NOT isnull(Session("SuccessPro")) AND TRIM(Session("SuccessPro"))<>"" Then
+					Response.write("<div id='alert' role='alert' class = 'alert alert-success d-flex justify-content-center'>"&Session("SuccessPro")&"</div>")
+    			Session("SuccessPro") = ""
+				End If
+			%>
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              <li class="nav-item dropdown">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="../images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a href="../logout.asp" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+    </div>
+  </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 d-flex align-items-stretch justify-content-center">
@@ -59,51 +166,35 @@
                             </div>
                             <form method=post id="formimg1" enctype="multipart/form-data" action="addMainImgProduct.asp" class="d-flex justify-content-around align-items-center my-3">
                                 <div class="wrap-input100 validate-input m-b-23">
-                                    <div class="d-flex">
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="img1">Choose Image Main</label>
-                                            <input type="file" class="form-control d-none" id="img1"/>
-                                        </div>
-                                    </div>
+                                    <label class="form-label m-1" for="img1">Choose Image Main</label>
+                                    <input type="file" class="form-control" id="img1"/>
                                 </div>
                                 <img src="/img/list/<%=mainimg%>" alt="main img" style="max-width:150px; border:1px solid #adadad"/>
                             </form>
                     <!--img 1-->
-                            <form method=post id="formimg2" enctype="multipart/form-data" action="addImg1Product.asp" class="d-flex justify-content-around align-items-center my-3">
+                            <!--<form method=post id="formimg2" enctype="multipart/form-data" action="addImg1Product.asp" class="d-flex justify-content-around align-items-center my-3">
                                 <div class="wrap-input100 validate-input m-b-23">
-                                    <div class="d-flex">
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="img2">Choose Image First Des</label>
-                                            <input type="file" class="form-control d-none" id="img2"/>
-                                        </div>
-                                    </div>
+                                    <label class="form-label m-1" for="img2">Choose Image First Des</label>
+                                    <input type="file" class="form-control" id="img2"/>
                                 </div>
-                                <img src="/img/list/<%=imgdes1%>" alt="first img" style="max-width:150px; border:1px solid #adadad"/>
+                                <img src="/img/list/<%'=imgdes1%>" alt="first img" style="max-width:150px; border:1px solid #adadad"/>
                             </form>
-                    <!--img 2-->
+
                             <form method=post id="formimg3" enctype="multipart/form-data" action="addImg2Product.asp" class="d-flex justify-content-around align-items-center my-3">
                                 <div class="wrap-input100 validate-input m-b-23">
-                                    <div class="d-flex">
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="img3">Choose Image Second Des</label>
-                                            <input type="file" class="form-control d-none" id="img3"/>
-                                        </div>
-                                    </div>
+                                    <label class="form-label m-1" for="img3">Choose Image Second Des</label>
+                                    <input type="file" class="form-control" id="img3"/>
                                 </div>
-                                <img src="/img/list/<%=imgdes2%>" alt="second img" style="max-width:150px; border:1px solid #adadad"/>
+                                <img src="/img/list/<%'=imgdes2%>" alt="second img" style="max-width:150px; border:1px solid #adadad"/>
                             </form>
-                    <!--img 3-->
+
                             <form method=post id="formimg4" enctype="multipart/form-data" action="addImg3Product.asp" class="d-flex justify-content-around align-items-center my-3">
                                 <div class="wrap-input100 validate-input m-b-23">
-                                    <div class="d-flex">
-                                        <div class="btn btn-primary btn-rounded">
-                                            <label class="form-label text-white m-1" for="img4">Choose Image Third Des</label>
-                                            <input type="file" class="form-control d-none" id="img4"/>
-                                        </div>
-                                    </div>
+                                    <label class="form-label m-1" for="img4">Choose Image Third Des</label>
+                                    <input type="file" class="form-control" id="img4"/>
                                 </div>
-                                <img src="/img/list/<%=imgdes3%>" alt="third img" style="max-width:150px; border:1px solid #adadad"/>
-                            </form>
+                                <img src="/img/list/<%'=imgdes3%>" alt="third img" style="max-width:150px; border:1px solid #adadad"/>
+                            </form>-->
                     <!--input form-->
                             <form method="post" action="updateProduct.asp">
                                 <div class="mb-2">
@@ -131,7 +222,7 @@
                                     <textarea type="text" class="form-control" id="describe" name="describe" placeholder="Input describe"><%=Pdescribe%></textarea>
                                 </div>
                                 <div class="mb-2">
-                                    <label for="quantity" class="form-label">Cost</label>
+                                    <label for="quantity" class="form-label">Quantity</label>
                                     <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Input number" value="<%=Pquantity%>">
                                 </div>
                                 <div class="mb-2">
@@ -185,5 +276,11 @@
                 formimg4.submit();
             });
         </script>    
+        <script type="text/javascript">
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 5000);
+  </script>
     </body>
 </html>

@@ -16,7 +16,7 @@
         cmdPrep.Parameters(0) = id
         Dim result
         set result = cmdPrep.execute()
-        'Response.Redirect("detailBillAdmin.asp?id="& id)
+        Response.Redirect("detailBillAdmin.asp?id="& id)
         end if
 
     End if

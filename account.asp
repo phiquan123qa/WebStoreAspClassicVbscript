@@ -77,7 +77,7 @@ End if
                         <div class="wrap-input100 validate-input m-b-23">
                             <span class="label-input100" >Avata</span>
                             <div style="height:55px;display:flex">
-                                <input type=file id="avata" name=avata>
+                                <input type=file id="avata" name=avata class="form-control" >
                             </div>
                         </div>
                         <img src="/img/avata_user/<%=avata%>" alt="avata user" style="max-width:100px; border:2px solid #adadad; margin-left:10px"/>

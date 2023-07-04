@@ -125,6 +125,31 @@ BEGIN
 END
 
 GO
+CREATE TRIGGER UpdateAmountToZero
+ON GiftCode
+FOR UPDATE
+AS
+BEGIN
+    UPDATE gc
+    SET amount = 0
+    FROM GiftCode gc
+    INNER JOIN inserted i ON gc.giftCode = i.giftCode
+    WHERE GETDATE() > gc.expire;
+END;
+
+GO
+CREATE TRIGGER UpdateProductDetailQuantity
+ON OrderDetail
+AFTER INSERT
+AS
+BEGIN
+    UPDATE pd
+    SET pd.quantity = pd.quantity - i.quantity
+    FROM ProductsDetail pd
+    INNER JOIN inserted i ON pd.id = i.productId;
+END;
+
+GO
 INSERT INTO Products([name], [type], brand, price, cost, describe, isEnabled)
 VALUES('Bluetooth Marshall Acton III', 'Audio', 'Marshall', 349, 400, 'The smallest speaker model in the new Home Speaker series introduced by Marshall in mid-2022.', DEFAULT),
 	  ('Edifier MR4', 'Audio', 'Edifier', 199, 199, 'A product in the line of professional monitor speakers to satisfy any demanding user with advanced technologies.', DEFAULT),
@@ -159,6 +184,27 @@ UPDATE ProductsDetail SET quantity = 9 WHERE id = 8
 UPDATE ProductsDetail SET quantity = 19 WHERE id = 9
 UPDATE ProductsDetail SET quantity = 24 WHERE id = 10
 
+GO
+UPDATE ProductsDetail SET imageDes1 = 'marshall_audio1.jpg',imageDes2 = 'marshall_audio2.jpg',imageDes3 = 'marshall_audio3.jpg'  WHERE id = 1
+UPDATE ProductsDetail SET imageDes1 = 'EdifierMR4_audio1.jpg', imageDes2 = 'EdifierMR4_audio2.jpg', imageDes3 = 'EdifierMR4_audio3.jpg' WHERE id = 2
+UPDATE ProductsDetail SET imageDes1 = 'HuaweiGT3_watch1.jpg', imageDes2 = 'HuaweiGT3_watch2.jpg', imageDes3 = 'HuaweiGT3_watch3.jpg' WHERE id = 3
+UPDATE ProductsDetail SET imageDes1 = 'AirTagLeather_accessory1.jpg', imageDes2 = 'AirTagLeather_accessory2.jpg', imageDes3 = 'AirTagLeather_accessory3.jpg' WHERE id = 4
+UPDATE ProductsDetail SET imageDes1 = 'TemperedGlassIp12_accessory1.jpg',imageDes2 = 'TemperedGlassIp12_accessory2.jpg',imageDes3 = 'TemperedGlassIp12_accessory3.jpg' WHERE id = 5
+UPDATE ProductsDetail SET imageDes1 = 'PDFDeviaBackIp11_accessory1.jpg', imageDes2 = 'PDFDeviaBackIp11_accessory2.jpg', imageDes3 = 'PDFDeviaBackIp11_accessory3.jpg' WHERE id = 6
+UPDATE ProductsDetail SET imageDes1 = 'LogitechG304_mouse1.jpg', imageDes2 = 'LogitechG304_mouse2.jpg', imageDes3 = 'LogitechG304_mouse3.jpg' WHERE id = 7
+UPDATE ProductsDetail SET imageDes1 ='RazeHyperSpeed_mouse1.jpg', imageDes2 = 'RazeHyperSpeed_mouse2.jpg', imageDes3 = 'RazeHyperSpeed_mouse3.jpg' WHERE id = 8
+UPDATE ProductsDetail SET imageDes1 = 'LogitechK480_keyboard1.png', imageDes2 = 'LogitechK480_keyboard2.jpg', imageDes3 = 'LogitechK480_keyboard3.jpg' WHERE id = 9
+UPDATE ProductsDetail SET imageDes1 = 'AKKO3087V2DS_keyboard1.jpg', imageDes2 = 'AKKO3087V2DS_keyboard2.jpg', imageDes3 = 'AKKO3087V2DS_keyboard3.jpg' WHERE id = 10
+UPDATE ProductsDetail SET imageDes1 = 'EPOMAKERMIACAT _keycaps1.jpg', imageDes2 = 'EPOMAKERMIACAT _keycaps2.jpg', imageDes3 = 'EPOMAKERMIACAT _keycaps3.png' WHERE id = 11
+UPDATE ProductsDetail SET imageDes1 = 'HyperXPudding_keycaps1.jpg', imageDes2 = 'HyperXPudding_keycaps2.jpg', imageDes3 = 'HyperXPudding_keycaps3.jpg' WHERE id = 12
+UPDATE ProductsDetail SET imageDes1 ='AsusRog_mouse1.png', imageDes2 = 'AsusRog_mouse2.png', imageDes3 = 'AsusRog_mouse3.jpg' WHERE id = 13
+UPDATE ProductsDetail SET imageDes1 = 'HPX300G2_mouse1.jpg', imageDes2 = 'HPX300G2_mouse2.jpg', imageDes3 = 'HPX300G2_mouse3.jpg' WHERE id = 14
+UPDATE ProductsDetail SET imageDes1 = 'Razer_mouse1.jpg', imageDes2 = 'Razer_mouse2.jpg', imageDes3 = 'Razer_mouse3.jpg' WHERE id = 15
+UPDATE ProductsDetail SET imageDes1 = 'AppleEarPods_audio1.jpg', imageDes2 = 'AppleEarPods_audio2.jpg', imageDes3 = 'AppleEarPods_audio3.jpg' WHERE id = 16
+UPDATE ProductsDetail SET imageDes1 = 'AppleSE2022_watch1.jpg', imageDes2 = 'AppleSE2022_watch2.jpg', imageDes3 = 'AppleSE2022_watch3.jpg' WHERE id = 17
+UPDATE ProductsDetail SET imageDes1 = 'XiaomiS1Active_watch1.jpg', imageDes2 = 'XiaomiS1Active_watch2.jpg', imageDes3 = 'XiaomiS1Active_watch3.jpg' WHERE id = 18
+UPDATE ProductsDetail SET imageDes1 = 'XiaomiMonitor_computerScreen1.jpg', imageDes2 = 'XiaomiMonitor_computerScreen2.jpeg', imageDes3 = 'XiaomiMonitor_computerScreen3.png' WHERE id = 19
+UPDATE ProductsDetail SET imageDes1 = 'ASUSProArt_computerScreen1.jpg', imageDes2 = 'ASUSProArt_computerScreen2.jpg', imageDes3 = 'ASUSProArt_computerScreen3.jpg' WHERE id = 20
 
 GO
 INSERT INTO Account([name], email, phone, dateOfBirth, [address], dateCreate, [password], avata, isEnabled)
@@ -201,4 +247,5 @@ UPDATE ProductsDetail SET quantity = 24, mainImage = 'ASUSProArt_computerScreen.
 GO
 INSERT INTO GiftCode(giftCode, discount, expire, amount) VALUES
 ('FREESHIP', 5, null, null)
+
 
